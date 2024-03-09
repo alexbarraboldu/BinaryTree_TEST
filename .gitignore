@@ -1,0 +1,12 @@
+Library/
+Temp/
+Builds/
+Logs/
+obj/
+*.dll
+*.exe
+*.apk
+*.sln
+*.csproj
+*.userprefs
+*.meta
