@@ -6,5 +6,10 @@ using BehaviourTree;
 
 public class BTContext : MonoBehaviour
 {
+	private BehaviourTreeSO _behaviourTreeSO;
 
+	private void Start()
+	{
+		
+	}
 }
