@@ -8,7 +8,7 @@ using UnityEditor.UIElements;
 
 using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(Node))]
+[CustomPropertyDrawer(typeof(SubclassAttribute))]
 public class SubclassPropertyDrawer : PropertyDrawer
 {
 	public override VisualElement CreatePropertyGUI(SerializedProperty property)
@@ -18,9 +18,11 @@ public class SubclassPropertyDrawer : PropertyDrawer
 
 		///	Create property field.
 		var nodeField = new PropertyField(property.FindPropertyRelative("status"));
+		var nodeField2 = new PropertyField(property.FindPropertyRelative("Lol"));
 
 		///	Add field to container.
 		container.Add(nodeField);
+		container.Add(nodeField2);
 
 		return container;
 	}
