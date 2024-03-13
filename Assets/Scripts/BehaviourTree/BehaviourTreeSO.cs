@@ -8,6 +8,7 @@ namespace BehaviourTree
 	[CreateAssetMenu(fileName = "BehaviourTreeData", menuName = "Custom/BehaviourTree/BehaviourTreeSO")]
 	public class BehaviourTreeSO : ScriptableObject
 	{
+		[SerializeReference, SubclassSelector]
 		public Node node;
 	}
 }

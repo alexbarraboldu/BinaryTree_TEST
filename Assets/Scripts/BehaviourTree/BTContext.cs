@@ -8,8 +8,7 @@ public class BTContext : MonoBehaviour
 {
 	private BehaviourTreeSO _behaviourTreeSO;
 
-	private void Start()
-	{
-		
-	}
+	[SerializeReference, SubclassSelector]
+	public Node node;
+
 }

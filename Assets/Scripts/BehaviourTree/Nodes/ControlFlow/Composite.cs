@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviourTree;
+using System;
 
 namespace BehaviourTree
 {
+	[Serializable]
 	public abstract class Composite : Node
 	{
-		public Node[] nodes;
+		[SerializeReference, SubclassSelector]
+		public Node[] nodes = Array.Empty<Node>();
 
+		public Composite() { }
 		public Composite(params Node[] nodes) : base()
 		{
 			this.nodes = nodes;

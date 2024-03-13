@@ -12,8 +12,6 @@ namespace BehaviourTree
 	{
 		public NodeStatus status;
 
-		public int Lol;
-
 		public Node()
 		{
 			status = NodeStatus.READY;
