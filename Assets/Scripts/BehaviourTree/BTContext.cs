@@ -6,9 +6,30 @@ using BehaviourTree;
 
 public class BTContext : MonoBehaviour
 {
-	private BehaviourTreeSO _behaviourTreeSO;
+	[SerializeField] private BehaviourTreeSO _behaviourTreeSO;
 
-	[SerializeReference, SubclassSelector]
-	public Node node;
+	[SerializeField] private BlackboardSO _blackboardSO;
 
+	///	Logic to manage the state of a the behaviour tree
+
+
+	public void Start()
+	{
+		RunBehaviourTree();
+	}
+
+	public void FixedUpdate()
+	{
+		RunBehaviourTree();
+	}
+
+	public void RunBehaviourTree()
+	{
+		_behaviourTreeSO.node.RunNode();
+	}
+
+	public void ResetToReadyAllNonRunningStates()
+	{
+		///	Navegar por todo el arbol y cambiar todos los estado que no sean RUNNING a READY
+	}
 }

@@ -29,12 +29,14 @@ namespace BehaviourTree
 						continue;
 					case NodeStatus.SUCCESS:
 						_status = NodeStatus.SUCCESS;
-						break;
+						goto exit_loop;
 					case NodeStatus.RUNNING:
 						_status = NodeStatus.RUNNING;
 						break;
 				}
 			}
+
+			exit_loop:;
 
 			status = _status;
 			return _status;
