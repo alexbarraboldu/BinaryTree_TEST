@@ -14,11 +14,13 @@ namespace BehaviourTree
 	{
 		public Action() { }
 
-		public UnityEvent<bool> myEvent;
+		public UnityEvent myEvent;
 
 		public override NodeStatus RunNode()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			myEvent.Invoke();
+			return NodeStatus.SUCCESS;
 		}
 	}
 }

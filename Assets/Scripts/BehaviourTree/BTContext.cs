@@ -20,7 +20,7 @@ public class BTContext : MonoBehaviour
 
 	public void FixedUpdate()
 	{
-		RunBehaviourTree();
+		//RunBehaviourTree();
 	}
 
 	public void RunBehaviourTree()

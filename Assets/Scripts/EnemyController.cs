@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IAttack, IChase
 {
-	public void Attack(/*BehaviourTree.NodeStatus nodeStatus*/)
+
+	private void Start()
 	{
-		Debug.Log("Attack");
-		//nodeStatus = BehaviourTree.NodeStatus.SUCCESS;
+		IAction action = GetComponent<IAttack>();
+		action.Action();
 	}
 
 	public void Patrol(out BehaviourTree.NodeStatus nodeStatus)
@@ -18,5 +20,14 @@ public class EnemyController : MonoBehaviour
 	public void Chase(out BehaviourTree.NodeStatus nodeStatus)
 	{
 		nodeStatus = BehaviourTree.NodeStatus.SUCCESS;
+	}
+
+	public void Attack()
+	{
+		Debug.Log("IAttack");
+	}
+	public void Chase()
+	{
+		Debug.Log("IChase");
 	}
 }

@@ -12,7 +12,8 @@ namespace BehaviourTree
 
 		public override NodeStatus RunNode()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			return NodeStatus.FAILURE;
 		}
 	}
 }
