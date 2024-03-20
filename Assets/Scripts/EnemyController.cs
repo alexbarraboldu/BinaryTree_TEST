@@ -1,33 +1,44 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IAttack, IChase
+public class EnemyController : MonoBehaviour, IAttack, IChase, IPatrol
 {
+	private EnemyBT _enemyBT;
+
+	private void Awake()
+	{
+		_enemyBT = new EnemyBT(this.gameObject);
+	}
 
 	private void Start()
 	{
-		IAction action = GetComponent<IAttack>();
-		action.Action();
+		InvokeRepeating("RunBT", 0f, 1f);
 	}
 
-	public void Patrol(out BehaviourTree.NodeStatus nodeStatus)
+	private void RunBT()
 	{
-		nodeStatus = BehaviourTree.NodeStatus.SUCCESS;
+		_enemyBT.RunBehaviourTree();
 	}
 
-	public void Chase(out BehaviourTree.NodeStatus nodeStatus)
-	{
-		nodeStatus = BehaviourTree.NodeStatus.SUCCESS;
-	}
-
-	public void Attack()
+	///	Action Interfaces
+	public BehaviourTree.NodeStatus Attack()
 	{
 		Debug.Log("IAttack");
+		return BehaviourTree.NodeStatus.SUCCESS;
 	}
-	public void Chase()
+	public BehaviourTree.NodeStatus Chase()
 	{
 		Debug.Log("IChase");
+		return BehaviourTree.NodeStatus.SUCCESS;
 	}
+
+	public BehaviourTree.NodeStatus Patrol()
+	{
+		Debug.Log("IPatrol");
+		return BehaviourTree.NodeStatus.SUCCESS;
+	}
+	///------------------
 }

@@ -4,18 +4,14 @@ using UnityEngine;
 
 using BehaviourTree;
 
-public class BTContext : MonoBehaviour
+///	Logic to manage the state of a the behaviour tree
+public abstract class BehaviourTreeContext
 {
-	[SerializeField] private BehaviourTreeSO _behaviourTreeSO;
-
 	[SerializeField] private BlackboardSO _blackboardSO;
-
-	///	Logic to manage the state of a the behaviour tree
-
 
 	public void Start()
 	{
-		RunBehaviourTree();
+		//RunBehaviourTree();
 	}
 
 	public void FixedUpdate()
@@ -25,7 +21,7 @@ public class BTContext : MonoBehaviour
 
 	public void RunBehaviourTree()
 	{
-		_behaviourTreeSO.node.RunNode();
+		//_behaviourTreeSO.node.RunNode();
 	}
 
 	public void ResetToReadyAllNonRunningStates()
