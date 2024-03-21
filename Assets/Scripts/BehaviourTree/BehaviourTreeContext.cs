@@ -2,7 +2,6 @@ using BehaviourTree;
 
 using UnityEngine;
 
-///	Logic to manage the state of a the behaviour tree
 public abstract class BehaviourTreeContext
 {
 	[SerializeField] private BlackboardSO _blackboardSO;
