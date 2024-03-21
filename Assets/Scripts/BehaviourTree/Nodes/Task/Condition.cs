@@ -1,19 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace BehaviourTree
 {
-	[Serializable]
 	public class Condition : Task
 	{
-		public Condition() { }
+		Func<bool> condition;
 
-		public override NodeStatus RunNode()
+		public Condition(Func<bool> methodCondition)
 		{
-			//throw new NotImplementedException();
-			return NodeStatus.FAILURE;
+			condition = methodCondition;
 		}
+
+		public override NodeStatus RunNode() => condition() ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
 	}
 }

@@ -1,30 +1,26 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
-using BehaviourTree;
-
-using UnityEngine;
-
-[Serializable]
-public class EnemyBT
+namespace BehaviourTree
 {
-	public EnemyBT(GameObject gameObject)
+	public class EnemyBT
 	{
-		_node = new Selector(
-			new Sequence(
-				new Condition(),
-				new Attack(gameObject.GetComponent<IAttack>())),
-			new Sequence(
-				new Condition(),
-				new Chase(gameObject.GetComponent<IChase>())),
-			new Patrol(gameObject.GetComponent<IPatrol>()));
-	}
+		public EnemyBT(EnemyController enemy)
+		{
+			_node = new Selector(
+				new Sequence(
+					new Condition(enemy.CheckAttack),
+					new Action(enemy.Attack)),
+				new Sequence(
+					new Condition(enemy.CheckChase),
+					new Action(enemy.Chase)),
+				new Action(enemy.Patrol));
+		}
 
-	private Node _node;
+		private Node _node;
 
-	public void RunBehaviourTree()
-	{
-		_node.RunNode();
+		public void RunBehaviourTree()
+		{
+			_node.RunNode();
+		}
 	}
 }

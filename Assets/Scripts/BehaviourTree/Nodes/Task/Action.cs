@@ -1,12 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BehaviourTree
 {
-	[Serializable]
-	public abstract class Action : Task
+	public class Action : Task
 	{
-		public Action() { }
+		Func<NodeStatus> action;
+
+		public Action(Func<NodeStatus> methodAction)
+		{
+			action = methodAction;
+		}
+
+		public override NodeStatus RunNode() => action();
 	}
 }
