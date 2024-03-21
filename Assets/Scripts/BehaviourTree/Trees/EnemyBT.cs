@@ -1,8 +1,6 @@
-using System;
+using BehaviourTree;
 
-namespace BehaviourTree
-{
-	public class EnemyBT
+public class EnemyBT : BehaviourTreeContext
 	{
 		public EnemyBT(EnemyController enemy)
 		{
@@ -15,12 +13,4 @@ namespace BehaviourTree
 					new Action(enemy.Chase)),
 				new Action(enemy.Patrol));
 		}
-
-		private Node _node;
-
-		public void RunBehaviourTree()
-		{
-			_node.RunNode();
-		}
 	}
-}

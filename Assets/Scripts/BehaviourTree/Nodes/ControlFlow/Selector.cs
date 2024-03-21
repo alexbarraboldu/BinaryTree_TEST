@@ -1,15 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BehaviourTree
 {
-	[Serializable]
 	public class Selector : Composite
 	{
-
-		public Selector() { }
 		public Selector(params Node[] nodes) : base(nodes)
 		{
 

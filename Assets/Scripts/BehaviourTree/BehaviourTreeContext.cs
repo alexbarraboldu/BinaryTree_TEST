@@ -1,27 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 using BehaviourTree;
+
+using UnityEngine;
 
 ///	Logic to manage the state of a the behaviour tree
 public abstract class BehaviourTreeContext
 {
 	[SerializeField] private BlackboardSO _blackboardSO;
 
-	public void Start()
-	{
-		//RunBehaviourTree();
-	}
+	protected Node _node;
 
-	public void FixedUpdate()
+	public virtual void RunBehaviourTree()
 	{
-		//RunBehaviourTree();
-	}
-
-	public void RunBehaviourTree()
-	{
-		//_behaviourTreeSO.node.RunNode();
+		_node.RunNode();
 	}
 
 	public void ResetToReadyAllNonRunningStates()

@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BehaviourTree
 {
-	[Serializable]
 	public class Sequence : Composite
 	{
-		public Sequence() { }
 		public Sequence(params Node[] nodes) : base(nodes)
 		{
 
