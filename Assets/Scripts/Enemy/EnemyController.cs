@@ -7,6 +7,9 @@ public class EnemyController : MonoBehaviour
 	public bool IsAttack;
 	public bool IsChase;
 
+	#region PATROL
+	#endregion
+
 	private void Awake()
 	{
 		_enemyBT = new EnemyBT(this);
