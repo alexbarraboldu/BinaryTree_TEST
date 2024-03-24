@@ -8,9 +8,22 @@ public abstract class BehaviourTreeContext
 
 	protected Node _node;
 
-	public virtual void RunBehaviourTree()
+	private float timer = 0f;
+	private float timerRate = 1f;
+	protected float TimerRate
 	{
-		_node.RunNode();
+		get => TimerRate;
+		set => TimerRate = value;
+	}
+
+	public virtual void RunBehaviourTree(float deltaTime)
+	{
+		if (timer >= timerRate)
+		{
+			_node.RunNode();
+			timer = 0f;
+		}
+		else timer += deltaTime;
 	}
 
 	public void ResetToReadyAllNonRunningStates()

@@ -12,23 +12,10 @@ public class EnemyController : MonoBehaviour
 		_enemyBT = new EnemyBT(this);
 	}
 
-	float timer = 0f;
+
 	private void FixedUpdate()
 	{
-		if (timer >= (Time.timeScale / 10f))
-		{
-			RunBT();
-			timer = 0f;
-		}
-		else
-		{
-			timer += Time.fixedDeltaTime;
-		}
-	}
-
-	private void RunBT()
-	{
-		_enemyBT.RunBehaviourTree();
+		_enemyBT.RunBehaviourTree(Time.fixedDeltaTime);
 	}
 
 	#region TASKS
