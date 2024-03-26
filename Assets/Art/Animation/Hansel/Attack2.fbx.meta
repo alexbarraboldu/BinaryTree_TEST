@@ -37,7 +37,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 44
+      lastFrame: 66
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -528,18 +528,18 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Hansel(Clone)
+    - name: hansel(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: hansel
-      parentName: Hansel(Clone)
+      parentName: hansel(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 4.651705, y: 4.651705, z: 4.651705}
     - name: mixamorig:Hips
-      parentName: Hansel(Clone)
+      parentName: hansel(Clone)
       position: {x: 0.0000044154763, y: 0.7010392, z: 0.007796861}
       rotation: {x: 0.000000558119, y: 0.0000016370892, z: -0.00005421235, w: 1}
       scale: {x: 1, y: 1, z: 1}
