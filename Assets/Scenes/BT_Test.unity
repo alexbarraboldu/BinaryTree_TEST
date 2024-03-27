@@ -271,6 +271,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyGroup: {fileID: 560659120619147917, guid: 19b78aecd10b63f42b893a92c6bb26da, type: 3}
+  _patrolGroupsData:
+  - enemyGroupData: {fileID: 11400000, guid: d2ba48f4aac1c7343a7112234ddb845c, type: 2}
+    splineContainer: {fileID: 3629809532338087805}
+  - enemyGroupData: {fileID: 11400000, guid: 6ff204d74da9769419a001dbe3312a05, type: 2}
+    splineContainer: {fileID: 532607403}
 --- !u!4 &224835871
 Transform:
   m_ObjectHideFlags: 0
@@ -284,8 +289,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1912763544}
   - {fileID: 1543709992}
+  - {fileID: 1912763544}
+  - {fileID: 1446424865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &532607398
@@ -303,7 +309,7 @@ GameObject:
   - component: {fileID: 532607401}
   - component: {fileID: 532607400}
   m_Layer: 0
-  m_Name: PatrolSpline (1)
+  m_Name: PatrolSpline_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,6 +514,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PatrolGroupSO: {fileID: 11400000, guid: 6ff204d74da9769419a001dbe3312a05, type: 2}
+--- !u!1 &1446424864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446424865}
+  m_Layer: 0
+  m_Name: EnemyGroups
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1446424865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446424864}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 224835871}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1543709991
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1543709992}
   m_Layer: 0
-  m_Name: PatrolGroups
+  m_Name: PatrolSplines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -769,7 +806,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: cf00076152945ee449bd5b62b138f12a, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1912763543
 GameObject:
@@ -781,7 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1912763544}
   m_Layer: 0
-  m_Name: EnemyGroups
+  m_Name: AnimatedSplineGroups
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1045,7 +1082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8403533995685450376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1118,7 +1155,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1418667065597881808}
-  - component: {fileID: 8927833127112797814}
   - component: {fileID: 3629809532338087805}
   - component: {fileID: 7425547384673924771}
   - component: {fileID: 8525667594992236144}
@@ -1130,19 +1166,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8927833127112797814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927833127112797813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbe9213a1513b6d43b611d60bf3f8e34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PatrolGroupSO: {fileID: 11400000, guid: d2ba48f4aac1c7343a7112234ddb845c, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

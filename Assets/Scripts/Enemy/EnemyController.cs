@@ -1,4 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
+
+public enum EnemyType
+{
+	NO_WEAPON, AXE, FORK
+}
 
 public class EnemyController : MonoBehaviour
 {
@@ -7,12 +13,16 @@ public class EnemyController : MonoBehaviour
 	public bool IsAttack;
 	public bool IsChase;
 
+	private NavMeshAgent _navMeshAgent;
+
 	#region PATROL
 	#endregion
 
 	private void Awake()
 	{
 		_enemyBT = new EnemyBT(this);
+		_navMeshAgent = GetComponent<NavMeshAgent>();
+		Debug.Log(_navMeshAgent.isOnNavMesh);
 	}
 
 
@@ -35,9 +45,15 @@ public class EnemyController : MonoBehaviour
 		return BehaviourTree.NodeStatus.SUCCESS;
 	}
 
+
+	private Transform _patrolGroupPoint;
+	public void SetPatrolDestination(Transform destination) { _patrolGroupPoint = destination; }
 	public BehaviourTree.NodeStatus Patrol()
 	{
 		Debug.Log("Patrol");
+
+		_navMeshAgent.destination = _patrolGroupPoint.position;
+
 		return BehaviourTree.NodeStatus.RUNNING;
 	}
 	#endregion
