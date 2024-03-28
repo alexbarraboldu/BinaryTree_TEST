@@ -3,14 +3,14 @@ using UnityEngine;
 using UnityEngine.Splines;
 
 ///	AnimatedSplineGroup
-[Serializable, RequireComponent(typeof(SplineAnimate))]
+[Serializable, RequireComponent(typeof(MoveAlongSpline))]
 public class EnemyPatrolGroup : MonoBehaviour
 {
-	private SplineAnimate _splineAnimate;
+	private MoveAlongSpline _moveAlongSpline;
 
 	private void Awake()
 	{
-		_splineAnimate = GetComponent<SplineAnimate>();
+		_moveAlongSpline = GetComponent<MoveAlongSpline>();
 	}
 
 	public void InstantiateEnemies(int id, Transform parent, Transform destination, PatrolGroupSO patrolGroupSO)
@@ -44,7 +44,7 @@ public class EnemyPatrolGroup : MonoBehaviour
 
 	public void SetSpline(SplineContainer splineContainer, int duration)
 	{
-		_splineAnimate.Container = splineContainer;
-		_splineAnimate.Duration = duration;
+		_moveAlongSpline.Container = splineContainer;
+		_moveAlongSpline.speed = 7f;
 	}
 }

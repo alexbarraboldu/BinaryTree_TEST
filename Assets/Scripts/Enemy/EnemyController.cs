@@ -39,20 +39,35 @@ public class EnemyController : MonoBehaviour
 		Debug.Log("Attack");
 		return BehaviourTree.NodeStatus.SUCCESS;
 	}
+
+	private Collider _chaseCollider;
+	private Transform _chasePoint;
+	public void SetChaseDestination(Transform destination) { _chasePoint = destination; }
 	public BehaviourTree.NodeStatus Chase()
 	{
 		Debug.Log("Chase");
-		return BehaviourTree.NodeStatus.SUCCESS;
+		_navMeshAgent.destination = _chasePoint.position;
+
+		switch (_navMeshAgent.path.status)
+		{
+			case NavMeshPathStatus.PathComplete:
+				return BehaviourTree.NodeStatus.SUCCESS;
+			case NavMeshPathStatus.PathPartial:
+				return BehaviourTree.NodeStatus.FAILURE;
+			case NavMeshPathStatus.PathInvalid:
+				return BehaviourTree.NodeStatus.FAILURE;
+			default:
+				return BehaviourTree.NodeStatus.RUNNING;
+		}
 	}
 
 
-	private Transform _patrolGroupPoint;
-	public void SetPatrolDestination(Transform destination) { _patrolGroupPoint = destination; }
+	private Transform _animatedSplinePoint;
+	public void SetPatrolDestination(Transform destination) { _animatedSplinePoint = destination; }
 	public BehaviourTree.NodeStatus Patrol()
 	{
 		Debug.Log("Patrol");
-
-		_navMeshAgent.destination = _patrolGroupPoint.position;
+		_navMeshAgent.destination = _animatedSplinePoint.position;
 
 		return BehaviourTree.NodeStatus.RUNNING;
 	}

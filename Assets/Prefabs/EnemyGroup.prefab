@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6365346803028081787}
   - component: {fileID: 267185128171176884}
-  - component: {fileID: 3989238131297363845}
+  - component: {fileID: -4559229305383461773}
   - component: {fileID: 7397377816859875372}
   - component: {fileID: 2355712057246773310}
   m_Layer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb0203a4e166674db4e374bbd9d0c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3989238131297363845
+--- !u!114 &-4559229305383461773
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,20 +56,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 560659120619147917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Script: {fileID: 11500000, guid: a0227110e204548419d7f012fc834f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_LoopMode: 3
-  m_Method: 0
-  m_Duration: 40
-  m_MaxSpeed: 3.7086105
-  m_EasingMode: 0
-  m_AlignmentMode: 1
-  m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
-  m_StartOffset: 0
+  speed: 1
+  loopMode: 1
 --- !u!23 &7397377816859875372
 MeshRenderer:
   m_ObjectHideFlags: 0
