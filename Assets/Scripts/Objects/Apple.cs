@@ -7,31 +7,12 @@ public class Apple : MonoBehaviour
 {
     private bool collectable=false;
     private bool from_hansel = false;
-
-
-    //ballistica
-    public float speed = 8.5f; // Speed of projectile.
-    public float radius = 1f; // Collision radius.
-    float radiusSq; // Radius squared; optimisation.
-    public Transform target; // Who we are homing at.
-
-    Vector3 currentPosition; // Store the current position we are at.
-    float distanceTravelled; // Record the distance travelled.
-
-    public float arcFactor = 0.5f; // Higher number means bigger arc.
-    Vector3 origin; // To store where the projectile first spawned.
-
+    private Transform throwDestination;
 
     // Quan li tirin un projectil caura
     private void OnCollisionEnter(Collision collision)
     {
         collectable = true;
-        if (collision.gameObject.tag == "Gretel")
-        {
-            //crida la funcio de curacio de Gretel
-            //collision.gameObject.GetComponent<Test>().heal();
-            Destroy(gameObject);
-        }
     }
     
 
@@ -45,47 +26,34 @@ public class Apple : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void setFromHansel(bool c)
+    public void throwHealApple(Transform destination)
     {
-        from_hansel=c;
+        from_hansel = true;
+        throwDestination = destination;
     }
+     
 
-    public bool isFromHansel()
+    private void OnDestroy()
     {
-        return from_hansel;
-    }
-
-
-
-    //ballistica
-    void Update()
-    {
-        // Nomes farem el calcul de ballistica quan el llencem
-        if (target!=null)
+        //curem a la Gretel
+        if (from_hansel)
         {
-            Debug.Log("trhooooow");
-
-            // Move ourselves towards the target at every frame.
-            Vector3 direction = target.position - currentPosition;
-            currentPosition += direction.normalized * speed * Time.deltaTime;
-            distanceTravelled += speed * Time.deltaTime; // Record the distance we are travelling.
-
-            // Set our position to <currentPosition>, and add a height offset to it.
-            float totalDistance = Vector3.Distance(origin, target.position);
-            float heightOffset = arcFactor * totalDistance * Mathf.Sin(distanceTravelled * Mathf.PI / totalDistance);
-            transform.position = currentPosition + new Vector3(0, 0, heightOffset);
- 
-
+            //CRIDA A LA FUNCIO DE CURAR LA GRETEL
+            Debug.Log("IMPLEMENTA CURACIO GRETEL");
         }
-
-        
     }
 
-    // So that other scripts can use Projectile.Spawn to spawn a projectile.
-    public void throwApple(Transform targetEntered)
+
+    private void Update()
     {
-        radiusSq = radius * radius;
-        origin = transform.position;
-        target = targetEntered;
+        if(throwDestination != null && from_hansel)
+        {
+            //destrueix abans que xoqui contra la Gretel i la cures
+            if(Vector3.Distance(this.transform.position, throwDestination.position) < 1f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
+
 }

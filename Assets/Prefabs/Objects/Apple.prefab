@@ -56,7 +56,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Apple
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2524414860266880451, guid: 174a365040822e9439c8636955762fb1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -81,4 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d00d561e1959584fa44e11741e94fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectable: 0
+  speed: 8.5
+  radius: 1
+  target: {fileID: 0}
+  arcFactor: 0.5

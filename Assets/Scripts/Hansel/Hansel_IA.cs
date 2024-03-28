@@ -15,8 +15,8 @@ public class Hansel_IA : MonoBehaviour
 
     //hansel general vars
     public bool alive;
-    public float throwForce = 200f;
-    public float throwForceUp = 1f; //forca que efectua al tirar lobjecte perque vagi cap amunt
+    public float throwForceMin = 100f; //forca correctora
+    public float throwForceMax = 700f; //forca que efectua al tirar lobjecte 
     private float intervalBT = 0.5f; //segons que pasen entre un check del BT i el seguent
     private float btTimer = 0f;
 
@@ -28,17 +28,15 @@ public class Hansel_IA : MonoBehaviour
     public float appleRadius = 20f;
     public int maxApples=5;
     private GameObject gThrowPoint;
-
-    //ballistica
-    public float firingAngle = 45.0f;
-    public float gravity = 9.8f;
+     
 
 
     //navmesh
     private NavMeshAgent agent;
     public float followDistance=3.5f; //a partir daquesta distancia comença a seguir el jugador
     private float stopDistanceFollow = 2f; //ens parem a 2f de la Gretel
-    public float healDistance = 6f; //a partir daquesta distancia pot tirar la poma a la Gretel
+    public float healDistance = 20f; //a partir daquesta distancia pot tirar la poma a la Gretel (cap amunt)
+    public float healDistanceFront = 7.5f; //a partir daquesta distancia li tirara la poma recta, perque esta aprop seu
 
     //gretel vars
     public GameObject gGretel;
@@ -163,12 +161,14 @@ public class Hansel_IA : MonoBehaviour
             {
                 updateApples(1);
                 obj.GetComponent<Apple>().picked();
+                //falta animacio
             }
         }
         else
         {
             //ens acostem al objecte
             Debug.Log("going to pickup object");
+            agent.isStopped = false;
             agent.destination = obj.transform.position;
             agent.stoppingDistance = 0f;
 
@@ -185,6 +185,7 @@ public class Hansel_IA : MonoBehaviour
 
             if(gretelDistance > followDistance)
             {
+                agent.isStopped = false;
                 agent.destination = gGretel.transform.position;
                 agent.stoppingDistance = stopDistanceFollow;
 
@@ -205,6 +206,7 @@ public class Hansel_IA : MonoBehaviour
             //ens apropem
             if( gretelDistance > healDistance)
             {
+                agent.isStopped = false;
                 Debug.Log("ens aprop per curar");
                 agent.destination= gGretel.transform.position;
                 agent.stoppingDistance = healDistance;
@@ -212,6 +214,7 @@ public class Hansel_IA : MonoBehaviour
             //tirem la poma si tenim linia de visio amb la Gretel
             else
             {
+                agent.isStopped = true;
                 Debug.Log("hauriem de tirar la poma!");
 
                 //mira cap a la Gretel
@@ -232,13 +235,30 @@ public class Hansel_IA : MonoBehaviour
                     {
                         Debug.Log("throw apple");
                         //instancio la poma i la llenco amb un add force
-                        Transform projectil = Instantiate(pApple, gThrowPoint.transform.position, gThrowPoint.transform.rotation).transform;
-                        projectil.GetComponent<Apple>().throwApple(gGretel.transform);
-                        //Rigidbody rbProjectil = projectil.GetComponent<Rigidbody>();
-                        //Vector3 force = directionGretel.normalized * throwForce + transform.up * throwForceUp;
-                        //rbProjectil.AddForce(force);
+                        GameObject projectil = Instantiate(pApple, gThrowPoint.transform.position, gThrowPoint.transform.rotation);
+                        projectil.GetComponent<Apple>().throwHealApple(gGretel.transform);
+                        Rigidbody rbProjectil = projectil.GetComponent<Rigidbody>();
 
+                        //segons lo lluny que estigui la Gretel, tirara la poma amunt o li tirara recte
+                        gretelDistance = Vector3.Distance(transform.position, gGretel.transform.position);
+                        Vector3 force;
+
+                        //cura daprop
+                        if (gretelDistance <= healDistanceFront)
+                        {
+                            force = directionGretel.normalized * throwForceMax + transform.up * throwForceMin;
+                           
+                        }
+                        else
+                        {
+                        //cura de lluny
+                            force = directionGretel.normalized * throwForceMin + transform.up * throwForceMax;
+                        }
+
+
+                        rbProjectil.AddForce(force);
                         updateApples(-1);
+                        Object.Destroy(projectil,1f); //destruim la poma
                     }
 
                     

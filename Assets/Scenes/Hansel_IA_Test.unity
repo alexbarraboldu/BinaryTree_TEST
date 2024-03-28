@@ -989,7 +989,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8793963964484129105, guid: 062edb6fcef374b428802502b60259eb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1703,19 +1704,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alive: 0
-  throwForce: 700
-  throwForceUp: 100
+  throwForceMin: 100
+  throwForceMax: 700
   pApple: {fileID: 6293890277013234829, guid: 062edb6fcef374b428802502b60259eb, type: 3}
   pickupDistance: 1.3
   apples: 0
   appleRadius: 20
   maxApples: 5
-  firingAngle: 45
-  gravity: 9.8
   followDistance: 3.5
-  healDistance: 6
+  healDistance: 20
+  healDistanceFront: 7.5
   gGretel: {fileID: 375144539}
-  gretelLife: 1
+  gretelLife: 0
 --- !u!195 &2146787822
 NavMeshAgent:
   m_ObjectHideFlags: 0
