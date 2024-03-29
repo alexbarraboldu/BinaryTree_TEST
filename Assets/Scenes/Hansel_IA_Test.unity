@@ -1704,13 +1704,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alive: 0
-  throwForceMin: 100
-  throwForceMax: 700
+  life: 10
+  maxLife: 10
+  flee: 0
+  enemyRadius: 20
+  enemyNear: 0
   pApple: {fileID: 6293890277013234829, guid: 062edb6fcef374b428802502b60259eb, type: 3}
   pickupDistance: 1.3
   apples: 0
   appleRadius: 20
   maxApples: 5
+  throwForceAir1: 300
+  throwForceAir2: 500
+  throwForceFront1: 100
+  throwForceFront2: 700
   followDistance: 3.5
   healDistance: 20
   healDistanceFront: 7.5

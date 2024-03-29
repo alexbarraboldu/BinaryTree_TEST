@@ -15,20 +15,29 @@ public class Hansel_IA : MonoBehaviour
 
     //hansel general vars
     public bool alive;
-    public float throwForceMin = 100f; //forca correctora
-    public float throwForceMax = 700f; //forca que efectua al tirar lobjecte 
     private float intervalBT = 0.5f; //segons que pasen entre un check del BT i el seguent
     private float btTimer = 0f;
+    public int life = 10;
+    public int maxLife = 10;
+    public bool flee=false;
 
+
+    //enemy general vars
+    public float enemyRadius = 20f; //rang de deteccio de enemics
+    public bool enemyNear = false;
 
     //apples
     public GameObject pApple;
     public float pickupDistance = 1.3f;
     public int apples;
-    public float appleRadius = 20f;
+    public float appleRadius = 20f; //rang de busqueda de pomes
     public int maxApples=5;
     private GameObject gThrowPoint;
-     
+    public float throwForceAir1 = 300f; //forca correctora
+    public float throwForceAir2 = 500f; //forca que efectua al tirar lobjecte 
+    public float throwForceFront1 = 100f; //forca correctora
+    public float throwForceFront2 = 700f; //forca que efectua al tirar lobjecte 
+
 
 
     //navmesh
@@ -95,7 +104,7 @@ public class Hansel_IA : MonoBehaviour
             if (gGretel != null && gretelDistance <= abandoneDistance)
             {
                 //crida a la funcio de mort dels dos jugadors
-
+                return;
             }
 
         }
@@ -127,7 +136,7 @@ public class Hansel_IA : MonoBehaviour
                         }
                     }
 
-                    //no hi han pomes aprop
+                    //no hi han pomes aprop, segueixo la Gretel
                     Debug.Log("no hi ha pomes aprop i en necessito, follow gretel");
                     followGretel();
                     return;
@@ -137,7 +146,58 @@ public class Hansel_IA : MonoBehaviour
                 else
                 {
                     healGretel();
+                    return;
                     
+
+                }
+            }
+
+            //la Gretel no necesita cura
+            else
+            {
+                //mirem si tenim enemics aprop
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, enemyRadius);
+                enemyNear = false;
+                
+                foreach (var hitCollider in hitColliders)
+                {
+                    //tenim enemics aprop
+                    if (hitCollider.tag == "Enemy")
+                    {
+                        enemyNear = true;
+                        Debug.Log("enemy is near me!");
+                    }
+                }
+
+                //tenim enemics aprop
+                if (enemyNear)
+                {
+                    //si estic fugint, vaig cap a la Gretel
+                    if (flee)
+                    {
+
+                    }
+                    else
+                    {
+                        //si tinc la vida per menys de la mitat, sactiva la possibilitat de fugir
+                        if (life < maxLife / 2)
+                        {
+                            //probabilitat mes alta segons menys vida tinguem
+                            if (Random.Range(0, life) == life)
+                            {
+                                Debug.Log("fugir!");
+                                flee = true;
+                            }
+
+                        }
+                    }
+
+                    
+
+                }
+                //no tenim enemics aprop
+                else
+                {
 
                 }
             }
@@ -246,19 +306,18 @@ public class Hansel_IA : MonoBehaviour
                         //cura daprop
                         if (gretelDistance <= healDistanceFront)
                         {
-                            force = directionGretel.normalized * throwForceMax + transform.up * throwForceMin;
-                           
+                            force = directionGretel.normalized * throwForceFront2 + transform.up * throwForceFront1;
                         }
                         else
                         {
                         //cura de lluny
-                            force = directionGretel.normalized * throwForceMin + transform.up * throwForceMax;
+                            force = directionGretel.normalized * throwForceAir1 + transform.up * throwForceAir2;
                         }
 
 
                         rbProjectil.AddForce(force);
                         updateApples(-1);
-                        Object.Destroy(projectil,1f); //destruim la poma
+                        Object.Destroy(projectil,1.5f); //destruim la poma
                     }
 
                     
@@ -278,6 +337,12 @@ public class Hansel_IA : MonoBehaviour
         Mathf.Clamp(apples, 0, maxApples); 
     }
 
+
+    private void updateLife(int quantity)
+    {
+        life += quantity;
+        Mathf.Clamp(life, 0, maxLife);
+    }
      
 
 
