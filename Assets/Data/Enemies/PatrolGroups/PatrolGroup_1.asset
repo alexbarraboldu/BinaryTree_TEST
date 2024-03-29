@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf98e7f95e0f2e4c97ee346e64c0923, type: 3}
   m_Name: PatrolGroup_1
   m_EditorClassIdentifier: 
-  groupSize: 3
   patrolDuration: 40
+  enemies: 000000000000000000000000

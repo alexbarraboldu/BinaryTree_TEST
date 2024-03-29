@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -9,13 +8,15 @@ public class EnemyPatrolGroupManager : MonoBehaviour
 {
 	[SerializeField] private GameObject _enemyGroup;
 
-	private Transform _patrolGroups;
+	[SerializeField] private List<PatrolData> _patrolGroupsData = new ();
+
+	private Transform _animatedSplineGroups;
 	private Transform _enemyGroups;
 
 	private void Awake()
 	{
-		_patrolGroups	= transform.Find("PatrolGroups");
-		_enemyGroups	= transform.Find("EnemyGroups");
+		_animatedSplineGroups	= transform.Find("AnimatedSplineGroups");
+		_enemyGroups		= transform.Find("EnemyGroups");
 	}
 
 	private void Start()
@@ -25,27 +26,27 @@ public class EnemyPatrolGroupManager : MonoBehaviour
 
 	private void Initialize()
 	{
-		foreach (Transform patrolGroupT in _patrolGroups)
+		for (int i = 0; i < _patrolGroupsData.Count; i++)
 		{
-			patrolGroupT.GetComponent<MeshRenderer>().enabled = false;
-			SplineContainer splineContainer	= patrolGroupT.GetComponent<SplineContainer>();
-			PatrolGroup patrolGroup			= patrolGroupT.GetComponent<PatrolGroup>();
+			_patrolGroupsData[i].splineContainer.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			EnemyPatrolGroup enemyPatrolGroup = SpawnAnimatedSplineGroup();
+			enemyPatrolGroup.gameObject.name = "EnemyGroup";
+			enemyPatrolGroup.gameObject.name += "_" + i;
 
-			SpawnEnemyGroup().SetGroup(patrolGroup.PatrolGroupSO, splineContainer);
+			enemyPatrolGroup.SetSpline(_patrolGroupsData[i].splineContainer, _patrolGroupsData[i].enemyGroupData.patrolDuration);
+			enemyPatrolGroup.InstantiateEnemies(i, _enemyGroups, enemyPatrolGroup.transform, _patrolGroupsData[i].enemyGroupData);
 		}
 	}
 
-	private EnemyPatrolGroup SpawnEnemyGroup()
+	private EnemyPatrolGroup SpawnAnimatedSplineGroup()
 	{
-		GameObject group = Instantiate(_enemyGroup.gameObject, _enemyGroups);
-		return group.GetComponent<EnemyPatrolGroup>();
+		return Instantiate(_enemyGroup.gameObject, _animatedSplineGroups).GetComponent<EnemyPatrolGroup>();
 	}
 }
 
 [Serializable]
-public struct SEnemyGroup
+public class PatrolData
 {
-	public int groupSize;
-	public int patrolDuration;
+	public PatrolGroupSO enemyGroupData;
+	public SplineContainer splineContainer;
 }
-

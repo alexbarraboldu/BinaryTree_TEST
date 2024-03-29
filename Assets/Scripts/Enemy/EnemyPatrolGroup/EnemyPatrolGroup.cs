@@ -1,40 +1,50 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-[Serializable, RequireComponent(typeof(SplineAnimate))]
+///	AnimatedSplineGroup
+[Serializable, RequireComponent(typeof(MoveAlongSpline))]
 public class EnemyPatrolGroup : MonoBehaviour
 {
-	private SplineAnimate _splineAnimate;
+	private MoveAlongSpline _moveAlongSpline;
 
 	private void Awake()
 	{
-		_splineAnimate = GetComponent<SplineAnimate>();
+		_moveAlongSpline = GetComponent<MoveAlongSpline>();
 	}
 
-	public void SetGroup(PatrolGroupSO patrolGroupSO, SplineContainer splineContainer)
+	public void InstantiateEnemies(int id, Transform parent, Transform destination, PatrolGroupSO patrolGroupSO)
 	{
-		///	Instantiate enemies
-		InstantiateEnemies(patrolGroupSO);
-		///	Set Spline
-		SetSpline(splineContainer, patrolGroupSO.patrolDuration);
+		GameObject parentGO = new GameObject("PatrolGroup_" + id);
+		parentGO.transform.SetParent(parent);
 
-		///	Update() => Check if some enemy has exited the SplineAnimated Circle, if so it should be stopped
-	}
-
-	private void InstantiateEnemies(PatrolGroupSO patrolGroupSO)
-	{
-		for (int i = 0; i < patrolGroupSO.groupSize; i++)
+		int size = patrolGroupSO.enemies.Count;
+		for (int i = 0; i < size; i++)
 		{
-			//Instantiate();
+			string enemyTypePath = "Enemies/";
+			switch (patrolGroupSO.enemies[i])
+			{
+				case EnemyType.NO_WEAPON:
+					enemyTypePath += "NoWeaponEnemy";
+					break;
+				case EnemyType.AXE:
+					enemyTypePath += "AxeEnemy";
+					break;
+				case EnemyType.FORK:
+					enemyTypePath += "ForkEnemy";
+					break;
+				default:
+					break;
+			}
+			GameObject enemy = Resources.Load<GameObject>(enemyTypePath);
+			enemy = Instantiate(enemy, parentGO.transform);
+			enemy.GetComponent<EnemyController>().SetPatrolDestination(destination);
 		}
 	}
 
-	private void SetSpline(SplineContainer splineContainer, int duration)
+	public void SetSpline(SplineContainer splineContainer, int duration)
 	{
-		_splineAnimate.Container = splineContainer;
-		_splineAnimate.Duration = duration;
+		_moveAlongSpline.Container = splineContainer;
+		_moveAlongSpline.speed = 7f;
 	}
 }
