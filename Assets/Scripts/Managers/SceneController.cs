@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public enum SceneName
 {
@@ -14,7 +13,7 @@ public enum SceneName
 public class SceneController : BaseSingleton<SceneController>
 {
 	[SerializeField] private GameObject loaderCanvas;
-	[SerializeField] private Image progressBar;
+	[SerializeField] private UnityEngine.UI.Image progressBar;
 
 	private float target;
 
@@ -28,17 +27,22 @@ public class SceneController : BaseSingleton<SceneController>
 		base.Awake();
 	}
 
+	private void Start()
+	{
+		LoadSceneAsync("MainMenuScene");
+	}
+
 	void Update()
 	{
 		if (progressBar != null) progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, target, 2 * Time.deltaTime);
 	}
 
-	public async void LoadSceneAsync(SceneName sceneName)
+	public async void LoadSceneAsync(string sceneName)
 	{
 		target = 0;
 		if (progressBar != null) progressBar.fillAmount = 0;
 
-		var sceneToLoad = SceneManager.LoadSceneAsync((int)sceneName);
+		var sceneToLoad = SceneManager.LoadSceneAsync(sceneName);
 		sceneToLoad.allowSceneActivation = false;
 
 		if (loaderCanvas != null) loaderCanvas.SetActive(true);
