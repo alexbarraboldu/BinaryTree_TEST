@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loaderCanvas: {fileID: 0}
   progressBar: {fileID: 0}
-  FinalisedDelay: 1000
+  FinalisedDelay: 500

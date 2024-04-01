@@ -19,7 +19,7 @@ public class SceneController : BaseSingleton<SceneController>
 
 	[SerializeField]
 	[Tooltip("Delay (in milliseconds) after the scene is loaded to set it active")]
-	[Range(1, 2000)] private float FinalisedDelay = 1000.0f;
+	[Range(0, 500)] private int FinalisedDelay = 100;
 
 	public override void Awake()
 	{
@@ -55,7 +55,7 @@ public class SceneController : BaseSingleton<SceneController>
 
 		} while (sceneToLoad.progress < 0.9f);
 
-		await Task.Delay(500);
+		await Task.Delay(FinalisedDelay);
 
 		sceneToLoad.allowSceneActivation = true;
 		if (loaderCanvas != null) loaderCanvas.SetActive(false);

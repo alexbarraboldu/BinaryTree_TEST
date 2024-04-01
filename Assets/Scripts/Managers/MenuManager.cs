@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using Unity.Collections;
 
 using UnityEngine;
-
-//public enum MenuName
-//{
-//	CONTORLS, CREDITS, DEAD, GAME_PAUSE, OPTIONS
-//}
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : BaseSingleton<MenuManager>
 {
 	private Dictionary<string, GameObject> menus = new Dictionary<string, GameObject>();
-
 	private Stack<string> loadedMenus = new Stack<string>();
 
 	private Transform _canvas;
@@ -24,6 +20,23 @@ public class MenuManager : BaseSingleton<MenuManager>
 		base.Awake();
 
 		_canvas = transform.GetChild(0);
+		AddAllMenus();
+
+		SceneManager.sceneLoaded += OnLevelLoaded;
+	}
+
+	public bool TryPeekOpenMenu(out GameObject menuGameObject)
+	{
+		if (loadedMenus.TryPeek(out string menuName))
+		{
+			menuGameObject = menus[menuName];
+			return true;
+		}
+		else
+		{
+			menuGameObject = null;
+			return false;
+		}
 	}
 
 	public void OpenMenu(string menuName)
@@ -43,10 +56,18 @@ public class MenuManager : BaseSingleton<MenuManager>
 
 	public void GoToLastMenu()
 	{
-		menus[loadedMenus.Peek()].SetActive(false);
-		loadedMenus.Pop();
+		if (loadedMenus.TryPeek(out string menuName))
+		{
+			menus[menuName].SetActive(false);
+			loadedMenus.Pop();
 
-		menus[loadedMenus.Peek()].SetActive(true);
+			if (loadedMenus.TryPeek(out string lastMenuName))
+			{
+				menus[lastMenuName].SetActive(true);
+			}
+			else Debug.LogAssertion("No last menu to open. End reached.");
+		}
+		else Debug.LogAssertion("No curent menu opened. Cannot close anything.");
 	}
 
 	public void CloseAllMenus()
@@ -58,17 +79,25 @@ public class MenuManager : BaseSingleton<MenuManager>
 		}
 	}
 	
-	public void OnLevelWasLoaded(int level)
+	private void AddAllMenus()
 	{
+		menus.Add("Main", _canvas.transform.Find("MainMenu").gameObject);//-
+
+		menus.Add("Dead", _canvas.transform.Find("DeadMenu").gameObject);//*
+		menus.Add("Pause", _canvas.transform.Find("PauseMenu").gameObject);//*
+
+		menus.Add("Controls", _canvas.transform.Find("ControlsMenu").gameObject);//
+		menus.Add("Credits", _canvas.transform.Find("CreditsMenu").gameObject);//
+		menus.Add("Options", _canvas.transform.Find("OptionsMenu").gameObject);//
+	}
+
+	private void OnLevelLoaded(Scene scene, LoadSceneMode sceneMode)
+	{
+		int level = scene.buildIndex;
+
 		if (level == (int)SceneName.MAIN_MENU)
 		{
 			Debug.Log("MainMenu Scene");
-
-			menus.Add("Main", _canvas.transform.Find("MainMenu").gameObject);//-
-
-			menus.Add("Controls", _canvas.transform.Find("ControlsMenu").gameObject);//-
-			menus.Add("Credits", _canvas.transform.Find("CreditsMenu").gameObject);//-
-			menus.Add("Options", _canvas.transform.Find("OptionsMenu").gameObject);//-
 
 			OpenMenu("Main");
 		}
@@ -76,24 +105,19 @@ public class MenuManager : BaseSingleton<MenuManager>
 		{
 			Debug.Log("Game Scene");
 
-			//CloseMenu("Main");
-			menus.Remove("Main");
-			menus.Remove("Controls");
-			menus.Remove("Credits");
-			menus.Remove("Options");
-
-			menus.Add("Dead", _canvas.transform.Find("DeadMenu").gameObject);//*
-			menus.Add("GamePause", _canvas.transform.Find("PauseMenu").gameObject);//*
+			///	For testing purposes
+			OpenMenu("Pause");
 		}
 	}
 
 
+	#region PRINT MENUS
 	public void Update()
 	{
 		PrintAllOpenMenus();
 	}
 
-	[ReadOnly, SerializeField] private string allMenus = "";
+	[SerializeField] private string allMenus = "";
 	private void PrintAllOpenMenus()
 	{
 		allMenus = "";
@@ -104,4 +128,5 @@ public class MenuManager : BaseSingleton<MenuManager>
 			allMenus += allLoadedMenus[i] + " -> ";
 		}
 	}
+	#endregion
 }
