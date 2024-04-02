@@ -5,6 +5,7 @@ using Unity.Collections;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : BaseSingleton<MenuManager>
@@ -14,6 +15,8 @@ public class MenuManager : BaseSingleton<MenuManager>
 
 	private Transform _canvas;
 
+	[SerializeField] private InputReader _inputReader;
+
 	public override void Awake()
 	{
 		Destroyable = false;
@@ -22,7 +25,15 @@ public class MenuManager : BaseSingleton<MenuManager>
 		_canvas = transform.GetChild(0);
 		AddAllMenus();
 
-		SceneManager.sceneLoaded += OnLevelLoaded;
+		SceneManager.sceneLoaded				+= OnLevelLoaded;
+		_inputReader.UserActionMap.PauseEvent	+= OnPauseEvent;
+		_inputReader.UIActionMap.CancelEvent	+= OnCancelEvent;
+	}
+	private void OnDestroy()
+	{
+		SceneManager.sceneLoaded				-= OnLevelLoaded;
+		_inputReader.UserActionMap.PauseEvent	-= OnPauseEvent;
+		_inputReader.UIActionMap.CancelEvent	-= OnCancelEvent;
 	}
 
 	public bool TryPeekOpenMenu(out GameObject menuGameObject)
@@ -72,13 +83,14 @@ public class MenuManager : BaseSingleton<MenuManager>
 
 	public void CloseAllMenus()
 	{
-		for (int i = 0; i < loadedMenus.Count; i++)
+		while (loadedMenus.TryPeek(out string menuPeeked))
 		{
-			menus[loadedMenus.Peek()].SetActive(false);
+			menus[menuPeeked].SetActive(false);
 			loadedMenus.Pop();
 		}
 	}
 	
+
 	private void AddAllMenus()
 	{
 		menus.Add("Main", _canvas.transform.Find("MainMenu").gameObject);//-
@@ -91,25 +103,58 @@ public class MenuManager : BaseSingleton<MenuManager>
 		menus.Add("Options", _canvas.transform.Find("OptionsMenu").gameObject);//
 	}
 
+	private SceneName _currentScene;
 	private void OnLevelLoaded(Scene scene, LoadSceneMode sceneMode)
 	{
-		int level = scene.buildIndex;
+		_currentScene = (SceneName)scene.buildIndex;
 
-		if (level == (int)SceneName.MAIN_MENU)
+		if (_currentScene == SceneName.MAIN_MENU)
 		{
 			Debug.Log("MainMenu Scene");
 
+			CloseAllMenus();
+
 			OpenMenu("Main");
+
+			_inputReader.SetUIInput(true);
 		}
-		else if (level == (int)SceneName.GAME)
+		else if (_currentScene == SceneName.GAME)
 		{
 			Debug.Log("Game Scene");
 
-			///	For testing purposes
-			OpenMenu("Pause");
+			CloseAllMenus();
+
+			_inputReader.SetUIInput(false);
+			_inputReader.SetUserInput(true);
 		}
 	}
 
+	private void OnPauseEvent(InputAction.CallbackContext context)
+	{
+		if (context.performed)
+		{
+			if (loadedMenus.Contains("Pause"))
+			{
+				CloseAllMenus();
+				_inputReader.SetUIInput(false);
+			}
+			else
+			{
+				OpenMenu("Pause");
+				_inputReader.SetUIInput(true);
+			}
+		}
+	}
+	private void OnCancelEvent(InputAction.CallbackContext context)
+	{
+		if (context.performed)
+		{
+			if (loadedMenus.Contains("Pause") || (loadedMenus.Contains("Main") && loadedMenus.Count > 1))
+			{
+				GoToLastMenu();
+			}
+		}
+	}
 
 	#region PRINT MENUS
 	public void Update()

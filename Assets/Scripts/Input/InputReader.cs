@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
+[CreateAssetMenu(fileName = "InputReader", menuName = "Custom/Input Reader")]
 public class InputReader : ScriptableObject
 {
-	///	UI
-	public class GameActionsUIActionMap : GameActions.IUI_ActionMapActions
+	///	User
+	public class ActionsUser : GameInputActions.IUserActions
 	{
-		public bool isEnable = false;
+		public bool isEnable;
 
 		public event UnityAction<InputAction.CallbackContext> PauseEvent = delegate { };
 
@@ -19,23 +19,75 @@ public class InputReader : ScriptableObject
 
 	}
 
-	private GameActionsUIActionMap _uiActionMap;
-	public GameActionsUIActionMap UiActionMap => _uiActionMap;
+	private ActionsUser _userActionMap;
+	public ActionsUser UserActionMap => _userActionMap;
+
+	/// UI
+	public class ActionUI : GameInputActions.IUIActions
+	{
+		public bool isEnable;
+
+		public event UnityAction<InputAction.CallbackContext> CancelEvent = delegate { };
+
+		public void OnCancel(InputAction.CallbackContext context)
+		{
+			CancelEvent.Invoke(context);
+		}
+		public void OnClick(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnMiddleClick(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnNavigate(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnPoint(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnRightClick(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnScrollWheel(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnSubmit(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnTrackedDeviceOrientation(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+		public void OnTrackedDevicePosition(InputAction.CallbackContext context)
+		{
+			//throw new System.NotImplementedException();
+		}
+	}
+
+	private ActionUI _uiActionMap;
+	public ActionUI UIActionMap => _uiActionMap;
 
 	///
-	private GameActions _gameActions;
+	private GameInputActions _gameInputActions;
 
 	private void OnEnable()
 	{
-		if (_gameActions == null)
+		if (_gameInputActions == null)
 		{
-			_gameActions = new GameActions();
+			_gameInputActions = new GameInputActions();
 
-			_uiActionMap = new GameActionsUIActionMap();
+			_userActionMap	= new ActionsUser();
+			_uiActionMap	= new ActionUI();
 
-			_gameActions.UI_ActionMap.SetCallbacks(_uiActionMap);
-
-			EnableUIInput();
+			_gameInputActions.User.SetCallbacks(_userActionMap);
+			_gameInputActions.UI.SetCallbacks(_uiActionMap);
 		}
 	}
 
@@ -46,28 +98,26 @@ public class InputReader : ScriptableObject
 
 	private void OnDestroy()
 	{
-		_gameActions.UI_ActionMap.RemoveCallbacks(_uiActionMap);
+		_gameInputActions.User.RemoveCallbacks(_userActionMap);
+		_gameInputActions.UI.RemoveCallbacks(_uiActionMap);
 	}
 
 	public void DisableAllInput()
 	{
-		DisablePlayerInput();
-		DisableUIInput();
+		SetUserInput(false);
+		SetUIInput(false);
 	}
 
-	public void DisablePlayerInput()
+	public void SetUserInput(bool value)
 	{
+		_userActionMap.isEnable = value;
+		if (value) _gameInputActions.User.Enable();
+		else _gameInputActions.User.Disable();
 	}
-
-
-	public void EnableUIInput()
+	public void SetUIInput(bool value)
 	{
-		_uiActionMap.isEnable = true;
-		//_gameActions.UI_ActionMap.Enable();
-	}
-	public void DisableUIInput()
-	{
-		_uiActionMap.isEnable= false;
-		//_gameActions.UI_ActionMap.Disable();
+		_userActionMap.isEnable = value;
+		if (value) _gameInputActions.UI.Enable();
+		else _gameInputActions.UI.Enable();
 	}
 }

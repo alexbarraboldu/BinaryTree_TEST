@@ -17,6 +17,9 @@ public class ReselectButton : MonoBehaviour
 		_eventSystem = GetComponent<EventSystem>();
 		_inputSystemUIInputModule = GetComponent<InputSystemUIInputModule>();
 
+
+		_currentSelectedGO = _eventSystem.firstSelectedGameObject;
+
 		_inputSystemUIInputModule.move.action.performed += SetSelectedUIButton;
 	}
 	private void OnDestroy()

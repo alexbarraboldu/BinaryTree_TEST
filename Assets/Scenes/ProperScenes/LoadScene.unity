@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &549690241 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6930000825686412266, guid: 593ec0f029ab5b342858b8669f6e0f03, type: 3}
+  m_PrefabInstance: {fileID: 2750976491170791377}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b237f4087f55144b5af856b56d88a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2152031661518947693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,6 +182,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6908366532075207435, guid: 156b086055b72d54b926db26459aea13, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 549690241}
     - target: {fileID: 7863015372436098258, guid: 156b086055b72d54b926db26459aea13, type: 3}
       propertyPath: m_Name
       value: MenuManager
