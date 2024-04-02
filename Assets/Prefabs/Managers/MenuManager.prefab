@@ -246,7 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: f35596e5d4811f140b15ad7686890bc5, type: 2}
-  allMenus: 
+  CustomMenuToOpen: 
+  LoadedMenus: 
 --- !u!1001 &1018671702314041238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478,10 +479,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1179641130564320441}
     m_Modifications:
-    - target: {fileID: 1763092138787613165, guid: d788be2d99c01134fb6d9602bfbf9273, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 8017806157043999454}
     - target: {fileID: 7565040335523628570, guid: d788be2d99c01134fb6d9602bfbf9273, type: 3}
       propertyPath: m_Name
       value: DeadMenu

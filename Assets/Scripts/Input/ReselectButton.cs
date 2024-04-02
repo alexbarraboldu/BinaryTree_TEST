@@ -17,7 +17,6 @@ public class ReselectButton : MonoBehaviour
 		_eventSystem = GetComponent<EventSystem>();
 		_inputSystemUIInputModule = GetComponent<InputSystemUIInputModule>();
 
-
 		_currentSelectedGO = _eventSystem.firstSelectedGameObject;
 
 		_inputSystemUIInputModule.move.action.performed += SetSelectedUIButton;
@@ -38,18 +37,16 @@ public class ReselectButton : MonoBehaviour
 		{
 			_eventSystem.SetSelectedGameObject(_currentSelectedGO);
 		}
-		else if (!_currentSelectedGO.activeInHierarchy)
-		{
-			Debug.Log("Last current button is disabled");
+		//else if (!_currentSelectedGO.activeInHierarchy)
+		//{
+		//	Debug.Log("Last current button is disabled");
 
-			if (MenuManager.Instance.TryPeekOpenMenu(out GameObject openMenu))
-			{
-				Debug.Log("Found an open menu to assign a button");
-				_currentSelectedGO = openMenu.transform.GetChild(0).gameObject;
-				_eventSystem.SetSelectedGameObject(_currentSelectedGO);
-			}
-		}
+		//	if (MenuManager.Instance.TryPeekOpenMenu(out GameObject openMenu))
+		//	{
+		//		Debug.Log("Found an open menu to assign a button");
+		//		_currentSelectedGO = openMenu.transform.GetChild(0).gameObject;
+		//		_eventSystem.SetSelectedGameObject(_currentSelectedGO);
+		//	}
+		//}
 	}
-
-	///	Set FirstSelectedGameObject when a menu opens
 }

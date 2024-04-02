@@ -16,7 +16,6 @@ public class InputReader : ScriptableObject
 		{
 			PauseEvent.Invoke(context);
 		}
-
 	}
 
 	private ActionsUser _userActionMap;
@@ -118,6 +117,6 @@ public class InputReader : ScriptableObject
 	{
 		_userActionMap.isEnable = value;
 		if (value) _gameInputActions.UI.Enable();
-		else _gameInputActions.UI.Enable();
+		else _gameInputActions.UI.Disable();
 	}
 }

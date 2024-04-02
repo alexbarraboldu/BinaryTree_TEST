@@ -872,7 +872,7 @@ namespace UnityEngine.InputSystem
                     ""path"": ""<HID::MY-POWER CO.,LTD. USB Joystick>/button10"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

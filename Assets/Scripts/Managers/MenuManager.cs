@@ -116,6 +116,7 @@ public class MenuManager : BaseSingleton<MenuManager>
 
 			OpenMenu("Main");
 
+			_inputReader.SetUserInput(true);
 			_inputReader.SetUIInput(true);
 		}
 		else if (_currentScene == SceneName.GAME)
@@ -124,8 +125,8 @@ public class MenuManager : BaseSingleton<MenuManager>
 
 			CloseAllMenus();
 
-			_inputReader.SetUIInput(false);
 			_inputReader.SetUserInput(true);
+			_inputReader.SetUIInput(false);
 		}
 	}
 
@@ -149,11 +150,19 @@ public class MenuManager : BaseSingleton<MenuManager>
 	{
 		if (context.performed)
 		{
-			if (loadedMenus.Contains("Pause") || (loadedMenus.Contains("Main") && loadedMenus.Count > 1))
+			if ((loadedMenus.Contains("Pause") || loadedMenus.Contains("Main")) && loadedMenus.Count > 1)
 			{
 				GoToLastMenu();
 			}
 		}
+	}
+
+	[SerializeField] private string CustomMenuToOpen = "";
+	[ContextMenu("OpenCustomMenu")]
+	private void OpenCustomMenu()
+	{
+		CloseAllMenus();
+		OpenMenu(CustomMenuToOpen);
 	}
 
 	#region PRINT MENUS
@@ -162,15 +171,15 @@ public class MenuManager : BaseSingleton<MenuManager>
 		PrintAllOpenMenus();
 	}
 
-	[SerializeField] private string allMenus = "";
+	[SerializeField] private string LoadedMenus = "";
 	private void PrintAllOpenMenus()
 	{
-		allMenus = "";
+		LoadedMenus = "";
 
 		string[] allLoadedMenus = loadedMenus.ToArray();
 		for (int i = allLoadedMenus.Length - 1; i > -1; i--)
 		{
-			allMenus += allLoadedMenus[i] + " -> ";
+			LoadedMenus += allLoadedMenus[i] + " -> ";
 		}
 	}
 	#endregion
