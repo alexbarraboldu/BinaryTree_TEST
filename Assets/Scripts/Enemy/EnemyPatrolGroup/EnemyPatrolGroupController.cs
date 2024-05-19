@@ -4,7 +4,7 @@ using UnityEngine.Splines;
 
 ///	AnimatedSplineGroup
 [Serializable, RequireComponent(typeof(MoveAlongSpline))]
-public class EnemyPatrolGroup : MonoBehaviour
+public class EnemyPatrolGroupController : MonoBehaviour
 {
 	private MoveAlongSpline _moveAlongSpline;
 
@@ -42,9 +42,8 @@ public class EnemyPatrolGroup : MonoBehaviour
 		}
 	}
 
-	public void SetSpline(SplineContainer splineContainer, int duration)
+	public void SetSpline(SplineContainer splineContainer, int speed)
 	{
-		_moveAlongSpline.Container = splineContainer;
-		_moveAlongSpline.speed = 7f;
+		_moveAlongSpline.SetSpline(splineContainer, speed);
 	}
 }

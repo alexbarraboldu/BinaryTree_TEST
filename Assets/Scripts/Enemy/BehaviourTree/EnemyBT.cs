@@ -4,7 +4,7 @@ public class EnemyBT : BehaviourTreeContext
 	{
 		public EnemyBT(EnemyController enemy)
 		{
-			_node = new Selector(
+			node = new Selector(
 				new Sequence(
 					new Condition(enemy.CheckAttack),
 					new Action(enemy.Attack)),

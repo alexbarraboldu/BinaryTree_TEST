@@ -1,8 +1,10 @@
+using UnityEngine;
+
 namespace BehaviourTree
 {
-	public class Selector : Composite
+	public class Sequence : Composite
 	{
-		public Selector(params Node[] nodes) : base(nodes)
+		public Sequence(params Node[] nodes) : base(nodes)
 		{
 
 		}
@@ -11,24 +13,26 @@ namespace BehaviourTree
 		{
 			NodeStatus _status = NodeStatus.FAILURE;
 
-			for (int i = 0; i < nodes.Length; i++)
+			bool exitLoop = false;
+			for (int i = 0; i < nodes.Length && !exitLoop; i++)
 			{
 				_status = nodes[i].RunNode();
 
 				switch (_status)
 				{
 					case NodeStatus.FAILURE:
-						continue;
+						_status = NodeStatus.FAILURE;
+						exitLoop = true;
+						break;
 					case NodeStatus.SUCCESS:
 						_status = NodeStatus.SUCCESS;
-						goto exit_loop;
+						continue;
 					case NodeStatus.RUNNING:
 						_status = NodeStatus.RUNNING;
+						exitLoop = true;
 						break;
 				}
 			}
-
-			exit_loop:;
 
 			status = _status;
 			return _status;

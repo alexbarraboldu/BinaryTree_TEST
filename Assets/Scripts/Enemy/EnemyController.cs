@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
 
 	private NavMeshAgent _navMeshAgent;
 
+	[SerializeField] private string DEBUG_BehaviourTreeNodeStatus = "";
+
 	#region PATROL
 	#endregion
 
@@ -36,7 +38,8 @@ public class EnemyController : MonoBehaviour
 	#region ACTIONS
 	public BehaviourTree.NodeStatus Attack()
 	{
-		Debug.Log("Attack");
+		DEBUG_BehaviourTreeNodeStatus = "Attack";
+
 		return BehaviourTree.NodeStatus.SUCCESS;
 	}
 
@@ -45,7 +48,8 @@ public class EnemyController : MonoBehaviour
 	public void SetChaseDestination(Transform destination) { _chasePoint = destination; }
 	public BehaviourTree.NodeStatus Chase()
 	{
-		Debug.Log("Chase");
+		DEBUG_BehaviourTreeNodeStatus = "Chase";
+
 		_navMeshAgent.destination = _chasePoint.position;
 
 		switch (_navMeshAgent.path.status)
@@ -66,7 +70,8 @@ public class EnemyController : MonoBehaviour
 	public void SetPatrolDestination(Transform destination) { _animatedSplinePoint = destination; }
 	public BehaviourTree.NodeStatus Patrol()
 	{
-		Debug.Log("Patrol");
+		DEBUG_BehaviourTreeNodeStatus = "Patrol";
+
 		_navMeshAgent.destination = _animatedSplinePoint.position;
 
 		return BehaviourTree.NodeStatus.RUNNING;

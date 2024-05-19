@@ -5,30 +5,35 @@ using UnityEngine.Splines;
 
 public class MoveAlongSpline : MonoBehaviour
 {
-	private SplineContainer _spline;
-	public SplineContainer Container { get => _spline; set => _spline = value; }
+	public enum LoopMode
+	{
+		LOOP, PING_PONG
+	}
 
-	public float speed = 1f;
+	private SplineContainer _splineContainer;
+
+	[SerializeField] private LoopMode loopMode = LoopMode.PING_PONG;
+
+	private float _speed = 1f;
 
 	private float _distancePercentage = 0f;
 	private float _splineLength;
 
+	private bool _goingForward = true;
+
 
 	void Start()
 	{
-		_splineLength = _spline.CalculateLength();
+		_splineLength = _splineContainer.CalculateLength();
 	}
 
-
-	public LoopMode loopMode = LoopMode.PING_PONG;
-	private bool _goingForward = true;
 	void Update()
 	{
-		float dP = speed * Time.deltaTime / _splineLength;
+		float dP = _speed * Time.deltaTime / _splineLength;
 		if (_goingForward) _distancePercentage += dP;
 		else _distancePercentage -= dP;
 
-		Vector3 currentPosition = _spline.EvaluatePosition(_distancePercentage);
+		Vector3 currentPosition = _splineContainer.EvaluatePosition(0, _distancePercentage);
 		transform.position = currentPosition;
 
 		if (_distancePercentage > 1f)
@@ -46,13 +51,14 @@ public class MoveAlongSpline : MonoBehaviour
 			_goingForward = true;
 		}
 
-		Vector3 nextPosition = _spline.EvaluatePosition(_distancePercentage + 0.05f);
+		Vector3 nextPosition = _splineContainer.EvaluatePosition(0, _distancePercentage + 0.05f);
 		Vector3 direction = nextPosition - currentPosition;
 		transform.rotation = Quaternion.LookRotation(direction, transform.up);
 	}
 
-	public enum LoopMode
+	public void SetSpline(SplineContainer splineContainer, float speed)
 	{
-		LOOP, PING_PONG
+		_splineContainer = splineContainer;
+		_speed = speed;
 	}
 }

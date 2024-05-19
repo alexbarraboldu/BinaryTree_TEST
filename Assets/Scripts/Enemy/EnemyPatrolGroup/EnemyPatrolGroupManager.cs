@@ -16,7 +16,7 @@ public class EnemyPatrolGroupManager : MonoBehaviour
 	private void Awake()
 	{
 		_animatedSplineGroups	= transform.Find("AnimatedSplineGroups");
-		_enemyGroups		= transform.Find("EnemyGroups");
+		_enemyGroups			= transform.Find("EnemyGroups");
 	}
 
 	private void Start()
@@ -29,18 +29,18 @@ public class EnemyPatrolGroupManager : MonoBehaviour
 		for (int i = 0; i < _patrolGroupsData.Count; i++)
 		{
 			_patrolGroupsData[i].splineContainer.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			EnemyPatrolGroup enemyPatrolGroup = SpawnAnimatedSplineGroup();
-			enemyPatrolGroup.gameObject.name = "EnemyGroup";
-			enemyPatrolGroup.gameObject.name += "_" + i;
+			EnemyPatrolGroupController EnemyPatrolGroupController = SpawnAnimatedSplineGroup();
+			EnemyPatrolGroupController.gameObject.name = "EnemyGroup";
+			EnemyPatrolGroupController.gameObject.name += "_" + i;
 
-			enemyPatrolGroup.SetSpline(_patrolGroupsData[i].splineContainer, _patrolGroupsData[i].enemyGroupData.patrolDuration);
-			enemyPatrolGroup.InstantiateEnemies(i, _enemyGroups, enemyPatrolGroup.transform, _patrolGroupsData[i].enemyGroupData);
+			EnemyPatrolGroupController.SetSpline(_patrolGroupsData[i].splineContainer, _patrolGroupsData[i].enemyGroupData.patrolSpeed);
+			EnemyPatrolGroupController.InstantiateEnemies(i, _enemyGroups, EnemyPatrolGroupController.transform, _patrolGroupsData[i].enemyGroupData);
 		}
 	}
 
-	private EnemyPatrolGroup SpawnAnimatedSplineGroup()
+	private EnemyPatrolGroupController SpawnAnimatedSplineGroup()
 	{
-		return Instantiate(_enemyGroup.gameObject, _animatedSplineGroups).GetComponent<EnemyPatrolGroup>();
+		return Instantiate(_enemyGroup.gameObject, _animatedSplineGroups).GetComponent<EnemyPatrolGroupController>();
 	}
 }
 

@@ -6,7 +6,7 @@ public abstract class BehaviourTreeContext
 {
 	[SerializeField] private BlackboardSO _blackboardSO;
 
-	protected Node _node;
+	protected Node node;
 
 	private float timer = 0f;
 	private float timerRate = 1f;
@@ -20,8 +20,9 @@ public abstract class BehaviourTreeContext
 	{
 		if (timer >= timerRate)
 		{
-			_node.RunNode();
+			node.RunNode();
 			timer = 0f;
+
 		}
 		else timer += deltaTime;
 	}
