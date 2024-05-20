@@ -1,3 +1,5 @@
+using BehaviourTree;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,6 +7,11 @@ public enum EnemyType
 {
 	NO_WEAPON, AXE, FORK
 }
+
+///	Hacer una NavMesh a partir de SplineExtrude, para hacer Patrol().
+///	Hacer 2 puntos de patrulla, principio y fin para navegar.
+///	Así no tendremos AnimatedSplineGroups (con MoveAlongSplin, etc.).
+///	Tener una NavMesh general para poder hacer Chase().
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,76 +22,104 @@ public class EnemyController : MonoBehaviour
 
 	private NavMeshAgent _navMeshAgent;
 
-	[SerializeField] private string DEBUG_BehaviourTreeNodeStatus = "";
+	///	CHASE
+	private Collider _chaseCollider;
+	private Transform _chasePoint;
 
-	#region PATROL
-	#endregion
+	///	PATROL
+	private Vector3 _patrolStartPoint;
+	private Vector3 _patrolEndPoint;
+
+	[SerializeField] private string DEBUG_BehaviourTreeNodeStatus = "";
 
 	private void Awake()
 	{
 		_enemyBT = new EnemyBT(this);
 		_navMeshAgent = GetComponent<NavMeshAgent>();
-		Debug.Log(_navMeshAgent.isOnNavMesh);
+
+		Debug.LogWarning("Agent " + gameObject.name + " is on NavMesh: " + _navMeshAgent.isOnNavMesh);
 	}
 
+	private void Start()
+	{
+		SetAgentDestination(_patrolEndPoint);
+	}
 
 	private void FixedUpdate()
 	{
 		_enemyBT.RunBehaviourTree(Time.fixedDeltaTime);
 	}
 
-	#region TASKS
+	private void SetAgentDestination(Vector3 destination)
+	{
+		Debug.LogWarning("Agent " + gameObject.name + " destination set correctly: " + _navMeshAgent.SetDestination(destination));
+	}
 
-	#region ACTIONS
-	public BehaviourTree.NodeStatus Attack()
+	public void SetPatrolPoints(Vector3 start, Vector3 end)
+	{
+		_patrolStartPoint	= start;
+		_patrolEndPoint		= end;
+	}
+
+	#region TASKS
+	///	ACTIONS
+	///	
+	///	Se podría convertir estas funciones en Interfaces dentro de EnemyBT.cs.
+	public NodeStatus Attack()
 	{
 		DEBUG_BehaviourTreeNodeStatus = "Attack";
 
-		return BehaviourTree.NodeStatus.SUCCESS;
+		return NodeStatus.SUCCESS;
 	}
 
-	private Collider _chaseCollider;
-	private Transform _chasePoint;
-	public void SetChaseDestination(Transform destination) { _chasePoint = destination; }
-	public BehaviourTree.NodeStatus Chase()
+	public NodeStatus Chase()
 	{
 		DEBUG_BehaviourTreeNodeStatus = "Chase";
-
-		_navMeshAgent.destination = _chasePoint.position;
 
 		switch (_navMeshAgent.path.status)
 		{
 			case NavMeshPathStatus.PathComplete:
-				return BehaviourTree.NodeStatus.SUCCESS;
+				return NodeStatus.SUCCESS;
 			case NavMeshPathStatus.PathPartial:
-				return BehaviourTree.NodeStatus.FAILURE;
+				return NodeStatus.FAILURE;
 			case NavMeshPathStatus.PathInvalid:
-				return BehaviourTree.NodeStatus.FAILURE;
+				return NodeStatus.FAILURE;
 			default:
-				return BehaviourTree.NodeStatus.RUNNING;
+				return NodeStatus.RUNNING;
 		}
 	}
 
-
-	private Transform _animatedSplinePoint;
-	public void SetPatrolDestination(Transform destination) { _animatedSplinePoint = destination; }
-	public BehaviourTree.NodeStatus Patrol()
+	public NodeStatus Patrol()
 	{
 		DEBUG_BehaviourTreeNodeStatus = "Patrol";
 
-		_navMeshAgent.destination = _animatedSplinePoint.position;
+		///	Comprobar que el enemigo a llegado hasta el destino, y si es así
+		///	cambiar el destino al otro destino que haya.
 
-		return BehaviourTree.NodeStatus.RUNNING;
+		NodeStatus status = NodeStatus.RUNNING;
+
+		if (_navMeshAgent.remainingDistance <= 1f)
+		{
+			status = NodeStatus.SUCCESS;
+			ChangePatrolPoint();
+		}
+		///	Hacer que si se para retorne FAILURE (esto de ahora no funciona)
+		else if (_navMeshAgent.isStopped)
+		{
+			status = NodeStatus.FAILURE;
+		}
+
+		return status;
 	}
-	#endregion
+	private void ChangePatrolPoint()
+	{
 
-	#region CONDITIONS
+	}
+
+	///	CONDITIONS
 	public bool CheckAttack() => IsAttack;
 	public bool CheckChase() => IsChase;
 	#endregion
-
-	#endregion
-
 
 	private void OnCollisionEnter(Collision collision)
 	{

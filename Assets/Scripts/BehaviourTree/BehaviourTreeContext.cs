@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using BehaviourTree;
 
+using TMPro.SpriteAssetUtilities;
+
 using Unity.VisualScripting;
 
 using UnityEditor;
@@ -51,6 +53,7 @@ public abstract class BehaviourTreeContext
 		{
 			if (_nodes[i].status != NodeStatus.RUNNING) _nodes[i].status = NodeStatus.READY;
 		}
+		_nodes[_nodes.Length - 1].status = NodeStatus.READY;
 	}
 
 	private void PrintAllNodesStatus()
