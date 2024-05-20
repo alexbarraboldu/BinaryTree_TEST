@@ -11,6 +11,9 @@ namespace BehaviourTree
 
 		Func<NodeStatus> action;
 
-		public override NodeStatus RunNode() => action();
+		public override NodeStatus RunNode()
+		{
+			return status = action();
+		}
 	}
 }

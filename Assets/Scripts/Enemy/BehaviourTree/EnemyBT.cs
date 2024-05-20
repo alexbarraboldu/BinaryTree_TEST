@@ -12,5 +12,7 @@ public class EnemyBT : BehaviourTreeContext
 					new Condition(enemy.CheckChase),
 					new Action(enemy.Chase)),
 				new Action(enemy.Patrol));
+
+			SetNodesArray();
 		}
 	}

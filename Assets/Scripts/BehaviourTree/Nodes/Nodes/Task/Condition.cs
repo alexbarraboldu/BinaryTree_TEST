@@ -12,6 +12,9 @@ namespace BehaviourTree
 
 		Func<bool> condition;
 
-		public override NodeStatus RunNode() => condition() ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
+		public override NodeStatus RunNode()
+		{
+			return status = condition() ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
+		}
 	}
 }
