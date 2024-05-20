@@ -3,14 +3,7 @@ using System.Collections.Generic;
 
 using BehaviourTree;
 
-using TMPro.SpriteAssetUtilities;
-
-using Unity.VisualScripting;
-
-using UnityEditor;
-
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public abstract class BehaviourTreeContext
 {

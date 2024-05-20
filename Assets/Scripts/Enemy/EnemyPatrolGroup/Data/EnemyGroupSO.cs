@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyGroupData", menuName = "Custom/EnemyData/EnemyGroup")]
