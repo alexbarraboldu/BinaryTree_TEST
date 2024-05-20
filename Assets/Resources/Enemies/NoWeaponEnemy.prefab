@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsAttack: 0
   IsChase: 0
+  DEBUG_BehaviourTreeNodeStatus: 
 --- !u!23 &8222753013381245768
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1b6ff0e8c94df4540b83cc320233cada, type: 2}
+  - {fileID: 2100000, guid: 8ab9d91a34f6e894493d1e45d25ddc9f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,7 +99,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2705243730473331143}
-  m_Mesh: {fileID: 8108563764783910780, guid: a6fc461b76615e448950d5206bbed94b, type: 3}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!195 &1970903874937024617
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -107,7 +108,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2705243730473331143}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: 1479372276
   m_Radius: 0.49739128
   m_Speed: 7
   m_Acceleration: 8
