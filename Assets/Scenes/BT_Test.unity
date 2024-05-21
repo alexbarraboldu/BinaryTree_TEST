@@ -426,7 +426,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1543709992}
@@ -545,31 +545,31 @@ MonoBehaviour:
       Rotation:
         value:
           x: 0
-          y: 0.9232099
+          y: 0.38429612
           z: 0
-          w: -0.38429612
+          w: 0.9232099
     - Position:
-        x: -43.1
+        x: 43.1
         y: 0
-        z: -42.8
+        z: 42.8
       TangentIn:
-        x: 0
-        y: 0
+        x: -0
+        y: -0
         z: -8.652477
       TangentOut:
         x: 0
         y: 0
-        z: 7.4334207
+        z: 10.285412
       Rotation:
         value:
-          x: -0.006491142
-          y: 0.98221725
-          z: -0.0012399915
-          w: 0.18763123
+          x: -0.0012401355
+          y: -0.18765306
+          z: 0.006491114
+          w: 0.98221314
     - Position:
-        x: 42.7
+        x: -42.7
         y: 0
-        z: -45.1
+        z: 45.1
       TangentIn:
         x: -0
         y: -0
@@ -580,14 +580,14 @@ MonoBehaviour:
         z: 8.583083
       Rotation:
         value:
-          x: 0.008843188
-          y: 0.71646374
-          z: 0.008609311
-          w: 0.69751525
+          x: 0.00085649465
+          y: -0.69756776
+          z: -0.00087976194
+          w: 0.71651775
     m_MetaData:
     - Mode: 0
       Tension: 0.5
-    - Mode: 3
+    - Mode: 0
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
@@ -846,7 +846,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 6bccb2d3956dee34aaf2d9d289604535, type: 2}
   m_BuildHeightMesh: 0
@@ -1137,9 +1137,9 @@ GameObject:
   - component: {fileID: 2144344508}
   - component: {fileID: 2144344507}
   - component: {fileID: 2144344506}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1224,7 +1224,7 @@ Transform:
   m_GameObject: {fileID: 2144344505}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -46.3}
+  m_LocalPosition: {x: 0, y: 8, z: -46.3}
   m_LocalScale: {x: 1, y: 5.5438, z: 7.6342106}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1296,19 +1296,19 @@ MonoBehaviour:
         y: 0
         z: -42.8
       TangentIn:
-        x: 0
-        y: 0
+        x: -0
+        y: -0
         z: -8.652477
       TangentOut:
         x: 0
         y: 0
-        z: 7.4334207
+        z: 10.285412
       Rotation:
         value:
-          x: -0.006491142
-          y: 0.98221725
-          z: -0.0012399915
-          w: 0.18763123
+          x: -0.006491114
+          y: 0.98221314
+          z: -0.0012401355
+          w: 0.18765306
     - Position:
         x: 42.7
         y: 0
@@ -1330,7 +1330,7 @@ MonoBehaviour:
     m_MetaData:
     - Mode: 0
       Tension: 0.5
-    - Mode: 3
+    - Mode: 0
       Tension: 0.5
     - Mode: 0
       Tension: 0.5

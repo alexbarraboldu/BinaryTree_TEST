@@ -8,9 +8,6 @@ public enum EnemyType
 	NO_WEAPON, AXE, FORK
 }
 
-///	Hacer una NavMesh a partir de SplineExtrude, para hacer Patrol().
-///	Hacer 2 puntos de patrulla, principio y fin para navegar.
-///	Así no tendremos AnimatedSplineGroups (con MoveAlongSplin, etc.).
 ///	Tener una NavMesh general para poder hacer Chase().
 
 public class EnemyController : MonoBehaviour
@@ -21,6 +18,8 @@ public class EnemyController : MonoBehaviour
 	public bool IsChase;
 
 	private NavMeshAgent _navMeshAgent;
+
+	private bool _isCollidingWithObstacle = false;
 
 	///	CHASE
 	private Collider _chaseCollider;
@@ -35,7 +34,7 @@ public class EnemyController : MonoBehaviour
 	private void Awake()
 	{
 		_enemyBT = new EnemyBT(this);
-		_navMeshAgent = GetComponent<NavMeshAgent>();
+		_navMeshAgent	= GetComponent<NavMeshAgent>();
 
 		Debug.LogWarning("Agent " + gameObject.name + " is on NavMesh: " + _navMeshAgent.isOnNavMesh);
 	}
@@ -93,9 +92,6 @@ public class EnemyController : MonoBehaviour
 	{
 		DEBUG_BehaviourTreeNodeStatus = "Patrol";
 
-		///	Comprobar que el enemigo a llegado hasta el destino, y si es así
-		///	cambiar el destino al otro destino que haya.
-
 		NodeStatus status = NodeStatus.RUNNING;
 
 		if (_navMeshAgent.remainingDistance <= 1f)
@@ -103,17 +99,25 @@ public class EnemyController : MonoBehaviour
 			status = NodeStatus.SUCCESS;
 			ChangePatrolPoint();
 		}
-		///	Hacer que si se para retorne FAILURE (esto de ahora no funciona)
-		else if (_navMeshAgent.isStopped)
+		
+		if (_isCollidingWithObstacle)
 		{
+			_navMeshAgent.isStopped = true;
 			status = NodeStatus.FAILURE;
+		}
+		else
+		{
+			_navMeshAgent.isStopped = false;
 		}
 
 		return status;
 	}
 	private void ChangePatrolPoint()
 	{
-
+		Vector3 newDestination = transform.position;
+		if (transform.position.IsNear(_patrolEndPoint, 2f)) newDestination = _patrolStartPoint;
+		else if (transform.position.IsNear(_patrolStartPoint, 2f)) newDestination = _patrolEndPoint;
+		_navMeshAgent.SetDestination(newDestination);
 	}
 
 	///	CONDITIONS
@@ -123,11 +127,25 @@ public class EnemyController : MonoBehaviour
 
 	private void OnCollisionEnter(Collision collision)
 	{
-		Debug.Log(collision.gameObject.name);
-
 		if (collision.collider.CompareTag("Player"))
 		{
 			IsAttack = true;
+		}
+		if (collision.collider.CompareTag("Obstacle"))
+		{
+			_isCollidingWithObstacle = true;
+		}
+	}
+
+	private void OnCollisionExit(Collision collision)
+	{
+		if (collision.collider.CompareTag("Player"))
+		{
+			IsAttack = false;
+		}
+		if (collision.collider.CompareTag("Obstacle"))
+		{
+			_isCollidingWithObstacle = false;
 		}
 	}
 }
